@@ -1,0 +1,106 @@
+.nav {
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
+    padding: 0 20px;
+    height: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+}
+
+.nav__logo {
+    color: #555;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    font-size: 24px;
+}
+
+.nav__logo a {
+    color: #e74c3c;
+    transition: all ease-in-out 1s;
+}
+
+.nav__logo a:hover {
+    color: blue;
+}
+
+.nav__links ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav__links li {
+    padding: 0px 10px;
+
+}
+
+.nav__links li a {
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all ease-in-out 0.3s;
+}
+
+.nav__links li a.active,
+.nav__links li a:hover {
+    color: #e74c3c;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+
+}
+
+.nav__links li a:hover {
+    color: #e74c3c;
+
+}
+
+@media only screen and (max-width: 640px) {
+    .nav {
+        height: 90px;
+    }
+
+    .nav__logo {
+        font-size: 20px;
+    }
+
+
+    .nav__links ul.active {
+        clip-path: circle(1000px at 90% -10%);
+        -webkit-clip-path: circle(1000px at 90% -10%);
+        pointer-events: all;
+        opacity: 1;
+    }
+
+    .nav__links li {
+        line-height: 40px;
+        margin: 30px 0;
+    }
+
+    .nav__links li a {
+        color: #555;
+        font-size: 18px;
+    }
+
+    .nav__links li a.active,
+    .nav__links li a:hover {
+        color: #e74c3c;
+    }
+
+}
