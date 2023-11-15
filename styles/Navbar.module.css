@@ -48,9 +48,13 @@
     transition: all ease-in-out 0.3s;
 }
 
-.nav__links li a.active,
-.nav__links li a:hover {
-    color: #e74c3c;
+.nav__links li a.active {
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all ease-in-out 0.3s;
+    background-color: #e74c3c;
+    color: #fff;
+
 }
 
 @keyframes fadeInDown {
@@ -67,8 +71,16 @@
 }
 
 .nav__links li a:hover {
-    color: #e74c3c;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all ease-in-out 0.3s;
+    background-color: #e74c3c;
+    color: #fff;
 
+}
+
+.nav__toggle {
+    display: none;
 }
 
 @media only screen and (max-width: 640px) {
@@ -80,13 +92,45 @@
         font-size: 20px;
     }
 
+    .nav__links ul {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        top: 90px;
+        left: -100%;
+        opacity: 1;
+        transition: all 0.5s ease;
+
+    }
+
+    .nav__links ul.toggle {
+        left: 0;
+        opacity: 1;
+        z-index: 1;
+    }
+
+    .nav__links ul.toggle::after {
+        content: "";
+        background: rgb(175, 170, 170);
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.79;
+        z-index: -1;
+    }
 
     .nav__links ul.active {
-        clip-path: circle(1000px at 90% -10%);
-        -webkit-clip-path: circle(1000px at 90% -10%);
-        pointer-events: all;
+        background-color: #fff;
+        left: 0;
         opacity: 1;
+        z-index: 1;
     }
+
 
     .nav__links li {
         line-height: 40px;
@@ -94,13 +138,32 @@
     }
 
     .nav__links li a {
-        color: #555;
-        font-size: 18px;
+        color: white;
+        font-weight: 900;
+        font-size: 25px;
     }
 
-    .nav__links li a.active,
-    .nav__links li a:hover {
+    .nav__toggle {
+        color: #555;
+        font-size: 24px;
+        cursor: pointer;
+        display: block;
+    }
+
+    .nav__toggle:hover {
         color: #e74c3c;
+    }
+
+    .nav__toggle .humbuger {
+        width: 30px;
+        height: 3px;
+        background-color: #555;
+        margin: 5px 0;
+        border-radius: 5px;
+    }
+
+    .closeSide {
+        display: none;
     }
 
 }

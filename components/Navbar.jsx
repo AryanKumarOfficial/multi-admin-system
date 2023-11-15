@@ -1,10 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/Navbar.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 const Navbar = () => {
   const router = useRouter();
+  const [active, setActive] = useState("Home");
+  useEffect(() => {
+    if (router.pathname === "/") {
+      setActive("Home");
+    } else if (router.pathname === "/about") {
+      setActive("About");
+    } else if (router.pathname === "/contact") {
+      setActive("Contact");
+    } else if (router.pathname === "/login") {
+      setActive("Login");
+    } else if (router.pathname === "/register") {
+      setActive("Register");
+    } else {
+      setActive("");
+    }
+  }, []);
+  const toggleSideBar = (e) => {
+    console.log("toggle sidebar");
+    e.preventDefault();
+    const ul = document.querySelector("#link");
+    const openSide = document.querySelector("#openSide");
+    const closeSide = document.querySelector("#closeSide");
+    ul.classList.toggle(styles.toggle);
+    if (ul.classList.contains(styles.toggle)) {
+      openSide.style.display = "none";
+      closeSide.style.display = "block";
+    } else {
+      openSide.style.display = "block";
+      closeSide.style.display = "none";
+    }
+  };
   return (
     <nav className={`${styles.nav}`}>
       <div className={`${styles.nav__logo}`}>
@@ -12,10 +43,10 @@ const Navbar = () => {
         {/* <h1>Logo</h1> */}
       </div>
       <div className={`${styles.nav__links}`}>
-        <ul>
+        <ul id="link">
           <li>
             <Link
-              className={`${router.pathname == "/" ? "active" : ""}`}
+              className={`${router.pathname == "/" ? `${styles.active}` : ""}`}
               href={"/"}
             >
               {" "}
@@ -24,7 +55,9 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              className={`${router.pathname == "/" ? "active" : ""}`}
+              className={`${
+                router.pathname == "/about" ? `${styles.active}` : ""
+              }`}
               href={"/about"}
             >
               {" "}
@@ -33,7 +66,9 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              className={`${router.pathname == "/" ? "active" : ""}`}
+              className={`${
+                router.pathname == "/contact" ? `${styles.active}` : ""
+              }`}
               href={"/contact"}
             >
               {" "}
@@ -42,7 +77,9 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              className={`${router.pathname == "/" ? "active" : ""}`}
+              className={`${
+                router.pathname == "/login" ? `${styles.active}` : ""
+              }`}
               href={"/login"}
             >
               {" "}
@@ -51,7 +88,9 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              className={`${router.pathname == "/" ? "active" : ""}`}
+              className={`${
+                router.pathname == "/register" ? `${styles.active}` : ""
+              }`}
               href={"/register"}
             >
               {" "}
@@ -59,6 +98,21 @@ const Navbar = () => {
             </Link>
           </li>
         </ul>
+      </div>
+      {/* // toggle sidemenu icon */}
+      <div className={`${styles.nav__toggle}`}>
+        <div className={`${styles.hamburger}`}>
+          <button id="openSide" onClick={toggleSideBar}>
+            |||
+          </button>
+          <button
+            className={`${styles.closeSide}`}
+            id="closeSide"
+            onClick={toggleSideBar}
+          >
+            X
+          </button>
+        </div>
       </div>
     </nav>
   );
