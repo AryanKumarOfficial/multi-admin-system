@@ -1,12 +1,13 @@
 import { Inter } from "next/font/google";
 import React, { useState } from "react";
-import { RiSendPlaneFill } from "react-icons/ri";
 import styles from "@/styles/Register.module.css";
 import Link from "next/link";
 import { getSession } from "next-auth/react";
 const inter = Inter({ subsets: ["latin"] });
 import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/router";
 const Register = () => {
+  const router = useRouter();
   const [form, setForm] = useState({
     fname: "",
     lname: "",
@@ -41,8 +42,14 @@ const Register = () => {
     console.log(resData, "resData");
     if (resData.ok) {
       toast.success(resData.msg);
+      setTimeout(() => {
+        router.push("/login");
+      }, 3000);
     } else {
       toast.error(resData.msg);
+      setTimeout(() => {
+        router.push("/login");
+      }, 3000);
     }
     setForm({
       fname: "",
