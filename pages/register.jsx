@@ -5,6 +5,7 @@ import styles from "@/styles/Register.module.css";
 import Link from "next/link";
 import { getSession } from "next-auth/react";
 const inter = Inter({ subsets: ["latin"] });
+import toast, { Toaster } from "react-hot-toast";
 const Register = () => {
   const [form, setForm] = useState({
     fname: "",
@@ -18,7 +19,7 @@ const Register = () => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("submitted");
     const data = {
@@ -28,7 +29,21 @@ const Register = () => {
       password: form.password,
       password2: form.password2,
     };
-    console.log(data);
+    const res = await fetch("/api/auth/registeruser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+      credentials: "include",
+    });
+    const resData = await res.json();
+    console.log(resData, "resData");
+    if (resData.ok) {
+      toast.success(resData.msg);
+    } else {
+      toast.error(resData.msg);
+    }
     setForm({
       fname: "",
       lname: "",
@@ -41,6 +56,7 @@ const Register = () => {
     <main
       className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}
     >
+      <Toaster />
       <section className="text-5xl font-bold ">
         <h1>Register</h1>
       </section>

@@ -1,20 +1,38 @@
 import connectDB from "@/backend/middleware/mongoose";
-import generatePepper from "@/backend/Utilities/security/Pepper";
-import generateSalt from "@/backend/Utilities/security/Salt";
 import User from "@/backend/model/User";
-const bycrpt = require("bcryptjs");
+import Hashed from "@/backend/Utilities/security/Hashed";
 
 const handler = async (req, res) => {
   if (req.method === "POST") {
     // extract data from req.body
     const { fname, lname, email, password } = req.body;
+    console.log(req.body);
     // check if user already exists in db
+    const isUserRegistered = await User.findOne({ email });
 
-    const pepper = generatePepper();
-    const salt = generateSalt();
-    const hashedPassword = await bycrpt.hash(password, salt + pepper);
+    if (isUserRegistered) {
+      return res.status(200).json({ msg: "User already exists", ok: false });
+    } else {
+      // generating hashed password
+      const secret = await Hashed(password);
 
-    res.status(200).json({ data: { fname, lname, email, password } });
+      // create new user
+      const newUser = new User({
+        firstName: fname,
+        lastName: lname,
+        email: email,
+        password: secret?.hashedPassword || null,
+        salt: secret?.salt || null,
+        pepper: secret?.pepper || null,
+      });
+
+      // save user to db
+      await newUser.save();
+
+      return res
+        .status(200)
+        .json({ msg: "Registered successfully!", newUser, ok: true });
+    }
   } else {
     return res.status(405).json({ msg: "Method not allowed" });
   }
