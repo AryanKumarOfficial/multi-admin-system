@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { RiSendPlaneFill } from "react-icons/ri";
 import styles from "@/styles/Register.module.css";
 import Link from "next/link";
+import { getSession } from "next-auth/react";
 const inter = Inter({ subsets: ["latin"] });
 const Register = () => {
   const [form, setForm] = useState({
@@ -110,3 +111,16 @@ const Register = () => {
 };
 
 export default Register;
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  return { props: {} };
+}

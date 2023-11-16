@@ -13,7 +13,12 @@ const Login = () => {
         <h1>Login</h1>
       </div>
       <button
-        onClick={() => signIn({ callbackUrl: "/dashboard" })}
+        onClick={() =>
+          signIn("github", {
+            callbackUrl: "http://localhost:3000/dashboard",
+            redirect: true,
+          })
+        }
         className="border shadow-md rounded-md p-4 my-4 hover:text-white hover:bg-black hover:shadow-blue-800"
       >
         Login with Github

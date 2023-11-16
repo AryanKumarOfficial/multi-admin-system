@@ -4,25 +4,21 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { TiThMenu } from "react-icons/ti";
 import { ImCross } from "react-icons/im";
+import { signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
-  const router = useRouter();
-  const [active, setActive] = useState("Home");
+  const { data: session } = useSession();
+  const [isLognIn, setIsLognIn] = useState(false);
   useEffect(() => {
-    if (router.pathname === "/") {
-      setActive("Home");
-    } else if (router.pathname === "/about") {
-      setActive("About");
-    } else if (router.pathname === "/contact") {
-      setActive("Contact");
-    } else if (router.pathname === "/login") {
-      setActive("Login");
-    } else if (router.pathname === "/register") {
-      setActive("Register");
+    if (session) {
+      setIsLognIn(true);
     } else {
-      setActive("");
+      setIsLognIn(false);
     }
-  }, []);
+    console.log(isLognIn, "isLognIn");
+  }, [session]);
+
+  const router = useRouter();
   const toggleSideBar = (e) => {
     console.log("toggle sidebar");
     e.preventDefault();
@@ -77,28 +73,46 @@ const Navbar = () => {
               Contact
             </Link>
           </li>
-          <li>
-            <Link
-              className={`${
-                router.pathname == "/login" ? `${styles.active}` : ""
-              }`}
-              href={"/login"}
-            >
-              {" "}
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link
-              className={`${
-                router.pathname == "/register" ? `${styles.active}` : ""
-              }`}
-              href={"/register"}
-            >
-              {" "}
-              Register
-            </Link>
-          </li>
+          {!isLognIn ? (
+            <>
+              <li>
+                <Link
+                  className={`${
+                    router.pathname == "/login" ? `${styles.active}` : ""
+                  }`}
+                  href={"/login"}
+                >
+                  {" "}
+                  Login
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${
+                    router.pathname == "/register" ? `${styles.active}` : ""
+                  }`}
+                  href={"/register"}
+                >
+                  {" "}
+                  Register
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <button
+                  className={`${
+                    router.pathname == "/register" ? `${styles.active}` : ""
+                  }`}
+                  onClick={() => signOut({ callbackUrl: "/login" })}
+                >
+                  {" "}
+                  Sign out
+                </button>
+              </li>
+            </>
+          )}
         </ul>
       </div>
       {/* // toggle sidemenu icon */}
