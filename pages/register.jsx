@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/Register.module.css";
 import Link from "next/link";
 import { getSession } from "next-auth/react";
@@ -15,14 +15,33 @@ const Register = () => {
     password: "",
     password2: "",
   });
+  const [passwordMatch, setPasswordMatch] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+
+    // check if password matches
+    // if (name == "password2" || name == "password") {
+    //   setPasswordMatch(form.password == form.password2);
+    // }
   };
+
+  useEffect(() => {
+    if (form.password == form.password2) {
+      setPasswordMatch(true);
+    } else {
+      setPasswordMatch(false);
+    }
+  }, [form]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("submitted");
+    if (!passwordMatch) {
+      toast.error("Passwords do not match");
+      return;
+    }
     const data = {
       fname: form.fname,
       lname: form.lname,
@@ -108,6 +127,9 @@ const Register = () => {
             autoComplete="off"
             onChange={handleChange}
             value={form.password}
+            className={`${
+              passwordMatch ? "" : "!border-2 focus:!border-red-500"
+            } `}
           />
           <input
             type="password"
@@ -118,8 +140,15 @@ const Register = () => {
             autoComplete="off"
             onChange={handleChange}
             value={form.password2}
+            className={`${
+              passwordMatch ? "" : "!border-2  focus:!border-red-500"
+            } `}
           />
-
+          {!passwordMatch && (
+            <p className="text-red-500 w-full text-left text-xs py-2 -mt-4">
+              Passwords do not match
+            </p>
+          )}
           <input type="submit" value="Register" />
         </form>
         <div className={`${styles.consent}`}>
