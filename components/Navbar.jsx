@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "@/styles/Navbar.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { TiThMenu } from "react-icons/ti";
+import { ImCross } from "react-icons/im";
 
 const Navbar = () => {
   const router = useRouter();
@@ -103,14 +105,22 @@ const Navbar = () => {
       <div className={`${styles.nav__toggle}`}>
         <div className={`${styles.hamburger}`}>
           <button id="openSide" onClick={toggleSideBar}>
-            |||
+            <TiThMenu
+              style={{ fontSize: "1.5rem" }}
+              size={30}
+              color={"#e74c3c"}
+            />
           </button>
           <button
             className={`${styles.closeSide}`}
             id="closeSide"
             onClick={toggleSideBar}
           >
-            X
+            <ImCross
+              style={{ fontSize: "1.5rem" }}
+              size={30}
+              color={"#e74c3c"}
+            />
           </button>
         </div>
       </div>

@@ -1,9 +1,41 @@
 import { Inter } from "next/font/google";
-import React from "react";
-const inter = Inter({ subsets: ["latin"] });
+import React, { useState } from "react";
+import { RiSendPlaneFill } from "react-icons/ri";
 import styles from "@/styles/Register.module.css";
 import Link from "next/link";
+const inter = Inter({ subsets: ["latin"] });
 const Register = () => {
+  const [form, setForm] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+    password: "",
+    password2: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("submitted");
+    const data = {
+      fname: form.fname,
+      lname: form.lname,
+      email: form.email,
+      password: form.password,
+      password2: form.password2,
+    };
+    console.log(data);
+    setForm({
+      fname: "",
+      lname: "",
+      email: "",
+      password: "",
+      password2: "",
+    });
+  };
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}
@@ -12,7 +44,7 @@ const Register = () => {
         <h1>Register</h1>
       </section>
       <section className={`${styles.form} my-10 w-screen`}>
-        <form>
+        <form onSubmit={handleSubmit} method="POST">
           <input
             type="text"
             name="fname"
@@ -20,6 +52,8 @@ const Register = () => {
             placeholder="Your First Name"
             required
             autoComplete="off"
+            value={form.fname}
+            onChange={handleChange}
           />
           <input
             type="text"
@@ -28,6 +62,8 @@ const Register = () => {
             placeholder="Your Last Name"
             autoComplete="off"
             required
+            onChange={handleChange}
+            value={form.lname}
           />
           <input
             type="email"
@@ -36,6 +72,8 @@ const Register = () => {
             placeholder="Your Email"
             required
             autoComplete="off"
+            onChange={handleChange}
+            value={form.email}
           />
           <input
             type="password"
@@ -44,6 +82,8 @@ const Register = () => {
             placeholder="Your Password"
             required
             autoComplete="off"
+            onChange={handleChange}
+            value={form.password}
           />
           <input
             type="password"
@@ -52,7 +92,10 @@ const Register = () => {
             placeholder="Confirm Password"
             required
             autoComplete="off"
+            onChange={handleChange}
+            value={form.password2}
           />
+
           <input type="submit" value="Register" />
         </form>
         <div className={`${styles.consent}`}>
