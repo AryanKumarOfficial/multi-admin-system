@@ -3,16 +3,31 @@ import React, { useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { getSession } from "next-auth/react";
 const inter = Inter({ subsets: ["latin"] });
-import styles from "@/styles/Register.module.css";
+import styles from "@/styles/Login.module.css";
 import Link from "next/link";
 import { ImGithub } from "react-icons/im";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 
 const Login = () => {
-  const [form, setForm] = useState({});
-  const handleChange = (e) => {};
-  const handleSubmit = (e) => {};
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(form, "form");
+    const status = await signIn("credentials", {
+      email: form.email,
+      password: form.password,
+      callbackUrl: "/dashboard",
+      redirect: true,
+    });
+    console.log(status, "status");
+  };
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}
@@ -21,7 +36,7 @@ const Login = () => {
         <h1>Login</h1>
       </div>
       <section className={`${styles.form} my-10 w-screen`}>
-        <form onSubmit={handleSubmit} method="POST">
+        <form onSubmit={handleSubmit}>
           <input
             type="email"
             name="email"
@@ -42,13 +57,9 @@ const Login = () => {
             onChange={handleChange}
             value={form.password}
             className=""
-            style={{
-              background: "url(/icons/eye.svg) no-repeat right 1rem center",
-              backgroundSize: "1.5rem",
-            }}
           />
 
-          <input type="submit" value="Register" />
+          <input type="submit" value="Login" />
         </form>
         <div className={`${styles.consent}`}>
           <span>New to plateform?</span>
@@ -69,7 +80,7 @@ const Login = () => {
           <button
             onClick={() =>
               signIn("github", {
-                callbackUrl: "http://localhost:3000/dashboard",
+                callbackUrl: "/dashboard",
                 redirect: true,
               })
             }
@@ -80,7 +91,7 @@ const Login = () => {
           <button
             onClick={() =>
               signIn("facebook", {
-                callbackUrl: "http://localhost:3000/dashboard",
+                callbackUrl: "/dashboard",
                 redirect: true,
               })
             }
@@ -91,7 +102,7 @@ const Login = () => {
           <button
             onClick={() =>
               signIn("google", {
-                callbackUrl: "http://localhost:3000/dashboard",
+                callbackUrl: "/dashboard",
                 redirect: true,
               })
             }
