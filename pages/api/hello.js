@@ -1,5 +1,5 @@
-import ConnectDB from '@/backend/middleware/mongoose';
-import User from '@/backend/model/User';
+import ConnectDB from '@/backend/Database/middleware/mongoose';
+import User from '@/backend/Database/model/User';
 
 const handler = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });

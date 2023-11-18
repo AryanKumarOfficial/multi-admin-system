@@ -4,41 +4,61 @@ const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: true,
       min: 2,
       max: 50,
+      default: "Jhon",
     },
     lastName: {
       type: String,
-      required: true,
       min: 2,
       max: 50,
+      default: "Doe",
     },
     email: {
       type: String,
-      required: true,
       min: 5,
       max: 50,
+      unique: true,
     },
     password: {
       type: String,
-      required: true,
       min: 6,
       max: 50,
     },
     salt: {
       type: String,
-      required: true,
     },
     pepper: {
       type: String,
-      required: true,
     },
 
     role: {
       type: String,
       enum: ["user", "admin", "superadmin"],
       default: "user",
+    },
+    auth: {
+      provider: {
+        type: String,
+        enum: ["google", "facebook", "github", "credentials"],
+        default: "credentials",
+      },
+      providerId: {
+        type: String,
+        default: null,
+      },
+      accessToken: {
+        type: String,
+        default: null,
+      },
+      refreshToken: {
+        type: String,
+        default: null,
+      },
+      accessTokenExpires: {
+        type: Date,
+        default: null,
+      },
     },
   },
   { timestamps: true }

@@ -1,5 +1,5 @@
-import connectDB from "@/backend/middleware/mongoose";
-import User from "@/backend/model/User";
+import connectDB from "@/backend/Database/middleware/mongoose";
+import User from "@/backend/Database/model/User";
 import Hashed from "@/backend/Utilities/security/Hashed";
 
 const handler = async (req, res) => {

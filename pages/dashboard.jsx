@@ -20,9 +20,9 @@ const Dashboard = () => {
           <div className="flex items-center justify-center">
             <img
               src={
-                session?.user?.image?.includes("platform-lookaside.fbsbx.com")
+                (session?.user?.image?.includes("platform-lookaside.fbsbx.com")
                   ? "/avtar.png"
-                  : session?.user?.image
+                  : session?.user?.image) ?? "/avtar.png"
               }
               alt="profile"
               className="rounded-full w-24 h-24 border-blue-500 border-4 object-cover p-1"
