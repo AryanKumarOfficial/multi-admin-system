@@ -120,54 +120,54 @@ export const authOptions = {
   },
   // adapter: MongoDBAdapter(clientPromise),
   debug: true,
-  // callbacks: {
-  //   async session(session, token) {
-  //     return session;
-  //   },
-  //   async jwt(token, user, account, profile, isNewUser) {
-  //     if (user) {
-  //       if (user.id) {
-  //         token.id = user.id;
-  //       }
-  //     }
-  //     return { ...token };
-  //   },
-  //   // async signIn(user, account, profile) {
-  //   //   const db = await connectToDB();
-  //   //   const collection = await db.collection("users");
-  //   //   const userExists = collection.findOne({
-  //   //     email: user.email,
-  //   //     auth: {
-  //   //       provider: account.provider,
-  //   //       providerId: account.id,
-  //   //     },
-  //   //   });
-  //   //   if (userExists) {
-  //   //     return true;
-  //   //   } else {
-  //   //     const userObject = {
-  //   //       firstName: user.name.split(" ")[0],
-  //   //       lastName: user.name.split(" ")[1],
-  //   //       email: user.email,
-  //   //       auth: {
-  //   //         provider: account.provider,
-  //   //         providerId: account.id,
-  //   //         accessToken: account.accessToken,
-  //   //         refreshToken: account.refreshToken,
-  //   //         accessTokenExpires: account.accessTokenExpires,
-  //   //       },
-  //   //     };
-  //   //     const newUser = await collection.insertOne(userObject);
-  //   //     if (newUser.insertedCount === 1) {
-  //   //       return true;
-  //   //     } else {
-  //   //       return false;
-  //   //     }
+  callbacks: {
+    async session(session, token) {
+      return session;
+    },
+    // async jwt(token, user, account, profile, isNewUser) {
+    //   if (user) {
+    //     if (user.id) {
+    //       token.id = user.id;
+    //     }
+    //   }
+    //   return { ...token };
+    // },
+    // async signIn(user, account, profile) {
+    //   const db = await connectToDB();
+    //   const collection = await db.collection("users");
+    //   const userExists = collection.findOne({
+    //     email: user.email,
+    //     auth: {
+    //       provider: account.provider,
+    //       providerId: account.id,
+    //     },
+    //   });
+    //   if (userExists) {
+    //     return true;
+    //   } else {
+    //     const userObject = {
+    //       firstName: user.name.split(" ")[0],
+    //       lastName: user.name.split(" ")[1],
+    //       email: user.email,
+    //       auth: {
+    //         provider: account.provider,
+    //         providerId: account.id,
+    //         accessToken: account.accessToken,
+    //         refreshToken: account.refreshToken,
+    //         accessTokenExpires: account.accessTokenExpires,
+    //       },
+    //     };
+    //     const newUser = await collection.insertOne(userObject);
+    //     if (newUser.insertedCount === 1) {
+    //       return true;
+    //     } else {
+    //       return false;
+    //     }
 
-  //   //     return false;
-  //   //   }
-  //   // },
-  // },
+    //     return false;
+    //   }
+    // },
+  },
 };
 
 export default NextAuth(authOptions);

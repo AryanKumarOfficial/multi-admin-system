@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 const Dashboard = () => {
   const { data: session, status } = useSession();
   useEffect(() => {
-    console.log(session, "data");
+    console.log(session?.roles?.includes(null), "data");
   }, [session]);
   return (
     <main
@@ -20,19 +20,21 @@ const Dashboard = () => {
           <div className="flex items-center justify-center">
             <img
               src={
-                (session?.user?.image?.includes("platform-lookaside.fbsbx.com")
+                (session?.session?.user?.image?.includes(
+                  "platform-lookaside.fbsbx.com"
+                )
                   ? "/avtar.png"
-                  : session?.user?.image) ?? "/avtar.png"
+                  : session?.session?.user?.image) ?? "/avtar.png"
               }
               alt="profile"
               className="rounded-full w-24 h-24 border-blue-500 border-4 object-cover p-1"
             />
           </div>
           <div className="mt-5 text-2xl text-center font-bold">
-            <h1>{session?.user?.name}</h1>
+            <h1>{session?.session?.user?.name}</h1>
           </div>
           <div className="mt-5 text-lg text-center font-bold">
-            <h1>{session?.user?.email}</h1>
+            <h1>{session?.session?.user?.email}</h1>
           </div>
         </div>
       )}
