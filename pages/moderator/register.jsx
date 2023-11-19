@@ -50,7 +50,7 @@ const Register = () => {
       password: form.password,
       password2: form.password2,
     };
-    const res = await fetch("/api/auth/registeruser", {
+    const res = await fetch("/api/auth/registermoderate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,12 +63,12 @@ const Register = () => {
     if (resData.ok) {
       toast.success(resData.msg);
       setTimeout(() => {
-        router.push("/login");
+        router.push("/moderator/login");
       }, 3000);
     } else {
       toast.error(resData.msg);
       setTimeout(() => {
-        router.push("/login");
+        router.push("/moderator/register");
       }, 3000);
     }
     setForm({
@@ -155,7 +155,10 @@ const Register = () => {
         </form>
         <div className={`${styles.consent}`}>
           <span>Verified Admin?</span>
-          <Link href="/login" className="text-center text-blue-500 underline">
+          <Link
+            href="/moderator/login"
+            className="text-center text-blue-500 underline"
+          >
             Login
           </Link>
         </div>{" "}

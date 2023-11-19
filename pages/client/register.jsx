@@ -166,7 +166,7 @@ const Register = () => {
             router.push("/moderator/login");
           }}
         >
-          User?
+          Admin?
         </button>
       </div>
     </main>

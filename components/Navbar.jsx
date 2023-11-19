@@ -78,7 +78,7 @@ const Navbar = () => {
               <li>
                 <Link
                   className={`${
-                    router.pathname == "/client/login" ? `${styles.active}` : ""
+                    (router.pathname == "/client/login"||router.pathname == "/moderator/login") ? `${styles.active}` : ""
                   }`}
                   href={"/client/login"}
                 >
@@ -89,7 +89,7 @@ const Navbar = () => {
               <li>
                 <Link
                   className={`${
-                    router.pathname == "/client/register" ? `${styles.active}` : ""
+                    (router.pathname == "/client/register" || router.pathname=='moderator/register') ? `${styles.active}` : ""
                   }`}
                   href={"/client/register"}
                 >

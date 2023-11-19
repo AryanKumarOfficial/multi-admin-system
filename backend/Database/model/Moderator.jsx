@@ -117,6 +117,6 @@ const moderatorSchema = new mongoose.Schema({
 });
 
 const Moderator =
-  mongoose.model("Moderator", moderatorSchema) || mongoose.models.Moderator;
+  mongoose.models.Moderator || mongoose.model("Moderator", moderatorSchema);
 
 module.exports = Moderator;

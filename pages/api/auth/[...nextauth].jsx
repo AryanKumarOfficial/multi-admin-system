@@ -109,10 +109,6 @@ export const authOptions = {
     maxAge: 30 * 24 * 60 * 60,
     strategy: "jwt",
     updateAge: 24 * 60 * 60,
-
-    generateSessionToken: () => {
-      return randomUUID() ?? randomBytes(32).toString("hex");
-    },
   },
 
   // NEXTAUTH_URL: "http://localhost:3000",
@@ -123,83 +119,21 @@ export const authOptions = {
   // adapter: MongoDBAdapter(clientPromise),
   debug: true,
   callbacks: {
-    async session(session, user, token) {
-      const newUser = await User.findOne({
-        email: session?.token?.email,
-      }).select({ password: 0, salt: 0, pepper: 0 });
-      await User.findOneAndUpdate(
-        {
-          email: session?.token?.email,
-        },
-        {
-          $set: {
-            lastLogin: Date.now(),
-            auth: {
-              provider:
-                session?.provider ||
-                (session?.token?.picture &&
-                  (session.token.picture.includes(
-                    "avatars.githubusercontent.com"
-                  )
-                    ? "Github"
-                    : session.token.picture.includes(
-                        "lh3.googleusercontent.com"
-                      )
-                    ? "Google"
-                    : session?.token?.picture.includes(
-                        "platform-lookaside.fbsbx.com"
-                      ) && "Facebook")) ||
-                "Credentials",
-              providerId: session?.id || null,
-              accessToken: session?.token?.jti || null,
-              refreshToken: session?.refreshToken,
-              accessTokenExpires: new Date(session?.token?.exp * 1000) || null,
-            },
-          },
-        }
-      );
-      log(session, "sessiossn");
-      return { user: newUser };
+    session: async ({ session, token }) => {
+      // if (session?.user) {
+      //   session.user.id = token.uid;
+      // }
+      return session;
     },
-    // async jwt(token, user, account, profile, isNewUser) {
-    //   return token;
-    // },
-    /*
-    async signIn(user, account, profile) {
-      const db = await connectToDB();
-      const collection = await db.collection("users");
-      const userExists = collection.findOne({
-        email: user.email,
-        auth: {
+    jwt: async ({ user, token, account }) => {
+      if (user) {
+        token = Object.assign(token, {
+          uid: user.id,
           provider: account.provider,
-          providerId: account.id,
-        },
-      });
-      if (userExists) {
-        return true;
-      } else {
-        const userObject = {
-          firstName: user.name.split(" ")[0],
-          lastName: user.name.split(" ")[1],
-          email: user.email,
-          auth: {
-            provider: account.provider,
-            providerId: account.id,
-            accessToken: account.accessToken,
-            refreshToken: account.refreshToken,
-            accessTokenExpires: account.accessTokenExpires,
-          },
-        };
-        const newUser = await collection.insertOne(userObject);
-        if (newUser.insertedCount === 1) {
-          return true;
-        } else {
-          return false;
-        }
-
-        return false;
+        });
       }
-    },*/
+      return token;
+    },
   },
 };
 
