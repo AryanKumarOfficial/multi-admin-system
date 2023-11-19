@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 const Dashboard = () => {
   const { data: session, status } = useSession();
   useEffect(() => {
-    console.log(session?.roles?.includes(null), "data");
+    console.log(session, "data");
   }, [session]);
   return (
     <main
@@ -61,19 +61,19 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-// export async function getServerSideProps(context) {
-//   const session = await getSession(context);
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
 
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
 
-//   return {
-//     props: {},
-//   };
-// }
+  return {
+    props: {},
+  };
+}

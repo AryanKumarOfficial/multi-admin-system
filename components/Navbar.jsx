@@ -78,9 +78,9 @@ const Navbar = () => {
               <li>
                 <Link
                   className={`${
-                    router.pathname == "/login" ? `${styles.active}` : ""
+                    router.pathname == "/client/login" ? `${styles.active}` : ""
                   }`}
-                  href={"/login"}
+                  href={"/client/login"}
                 >
                   {" "}
                   Login
@@ -89,9 +89,9 @@ const Navbar = () => {
               <li>
                 <Link
                   className={`${
-                    router.pathname == "/register" ? `${styles.active}` : ""
+                    router.pathname == "/client/register" ? `${styles.active}` : ""
                   }`}
-                  href={"/register"}
+                  href={"/client/register"}
                 >
                   {" "}
                   Register
@@ -105,7 +105,7 @@ const Navbar = () => {
                   className={`${
                     router.pathname == "/register" ? `${styles.active}` : ""
                   }`}
-                  onClick={() => signOut({ callbackUrl: "/login" })}
+                  onClick={() => signOut({ callbackUrl: "/client/login" })}
                 >
                   {" "}
                   Sign out

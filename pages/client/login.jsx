@@ -23,7 +23,7 @@ const Login = () => {
     const status = await signIn("credentials", {
       email: form.email,
       password: form.password,
-      callbackUrl: "/dashboard",
+      callbackUrl: "/client/dashboard",
       redirect: true,
     });
     console.log(status, "status");
@@ -80,7 +80,7 @@ const Login = () => {
           <button
             onClick={() =>
               signIn("github", {
-                callbackUrl: "/dashboard",
+                callbackUrl: "/client/dashboard",
                 redirect: true,
               })
             }
@@ -91,7 +91,7 @@ const Login = () => {
           <button
             onClick={() =>
               signIn("facebook", {
-                callbackUrl: "/dashboard",
+                callbackUrl: "/client/dashboard",
                 redirect: true,
               })
             }
@@ -102,7 +102,7 @@ const Login = () => {
           <button
             onClick={() =>
               signIn("google", {
-                callbackUrl: "/dashboard",
+                callbackUrl: "/client/dashboard",
                 redirect: true,
               })
             }
@@ -124,7 +124,7 @@ export async function getServerSideProps(context) {
   if (session) {
     return {
       redirect: {
-        destination: "/dashboard",
+        destination: "/client/dashboard",
         permanent: false,
       },
     };

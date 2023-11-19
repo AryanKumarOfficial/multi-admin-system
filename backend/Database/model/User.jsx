@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema(
       max: 50,
       unique: true,
     },
+    image: {
+      type: String,
+      default: "/avtar.png",
+    },
     password: {
       type: String,
       min: 6,
@@ -59,6 +63,30 @@ const userSchema = new mongoose.Schema(
         type: Date,
         default: null,
       },
+    },
+    lastLogin: {
+      type: Date,
+      default: Date.now(),
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    isSuspended: {
+      type: Boolean,
+      default: false,
+    },
+    isBanned: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
