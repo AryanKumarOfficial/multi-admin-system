@@ -9,6 +9,14 @@ import { ImGithub } from "react-icons/im";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { useRouter } from "next/router";
+import {
+  Ri24HoursFill,
+  Ri24HoursLine,
+  Ri4KFill,
+  RiAB,
+  RiAccountBoxFill,
+  RiAdminFill,
+} from "react-icons/ri";
 
 const Login = () => {
   const router = useRouter();
@@ -34,7 +42,8 @@ const Login = () => {
     <main
       className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}
     >
-      <div className="text-5xl font-bold">
+      <div className="text-4xl font-semibold flex ">
+        <RiAdminFill className="inline-block mr-2" />
         <h1>Login</h1>
       </div>
       <section className={`${styles.form} my-10 w-screen`}>
@@ -43,7 +52,7 @@ const Login = () => {
             type="email"
             name="email"
             id="email"
-            placeholder="Your Email"
+            placeholder="Email"
             required
             autoComplete="off"
             onChange={handleChange}
@@ -53,7 +62,7 @@ const Login = () => {
             type="password"
             name="password"
             id="password"
-            placeholder="Your Password"
+            placeholder="Password"
             required
             autoComplete="off"
             onChange={handleChange}
@@ -64,62 +73,23 @@ const Login = () => {
           <input type="submit" value="Login" />
         </form>
         <div className={`${styles.consent}`}>
-          <span>New to plateform?</span>
+          <span>Not admin yet!</span>{" "}
           <Link
-            href="/register"
+            href="/moderator/register"
             className="text-center text-blue-500 underline"
           >
             Register
           </Link>
         </div>{" "}
-        <hr className=" border-black border w-[90%] text-center mx-auto" />
       </section>
       <section className="oauth text-center">
-        <p>
-          <span className="capitalize font-bold text-xl">continue With</span>
-        </p>
-        <div className="flex justify-center">
-          <button
-            onClick={() =>
-              signIn("github", {
-                callbackUrl: "/client/dashboard",
-                redirect: true,
-              })
-            }
-            className="shadow-md m-4 rounded-lg p-4 my-4 hover:text-white hover:bg-black hover:shadow-gray-900 "
-          >
-            <ImGithub size={30} />
-          </button>{" "}
-          <button
-            onClick={() =>
-              signIn("facebook", {
-                callbackUrl: "/client/dashboard",
-                redirect: true,
-              })
-            }
-            className="shadow-md m-4 rounded-lg p-4 my-4 text-[#0866ff] hover:text-white hover:bg-[#0866ff] hover:shadow-gray-900"
-          >
-            <FaFacebook size={30} />
-          </button>
-          <button
-            onClick={() =>
-              signIn("google", {
-                callbackUrl: "/client/dashboard",
-                redirect: true,
-              })
-            }
-            className="shadow-md m-4 rounded-lg p-4 my-4 hover:text-white hover:bg-black hover:shadow-gray-900"
-          >
-            <FcGoogle size={30} />
-          </button>
-        </div>
         <div className="fixed bottom-10 right-10">
           <button
             type="button"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => router.push("/moderator/login")}
+            onClick={() => router.push("/client/login")}
           >
-            Admin?
+            User?
           </button>
         </div>
       </section>

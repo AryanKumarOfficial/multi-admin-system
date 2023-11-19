@@ -6,6 +6,7 @@ import { getSession } from "next-auth/react";
 const inter = Inter({ subsets: ["latin"] });
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
+import { RiAdminFill } from "react-icons/ri";
 const Register = () => {
   const router = useRouter();
   const [form, setForm] = useState({
@@ -83,7 +84,8 @@ const Register = () => {
       className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}
     >
       <Toaster />
-      <section className="text-5xl font-bold ">
+      <section className="text-5xl font-bold flex">
+        <RiAdminFill className="inline-block mx-2" />
         <h1>Register</h1>
       </section>
       <section className={`${styles.form} my-10 w-screen`}>
@@ -149,10 +151,10 @@ const Register = () => {
               Passwords do not match
             </p>
           )}
-          <input type="submit" value="Register" />
+          <input type="submit" value="Request Verfication" />
         </form>
         <div className={`${styles.consent}`}>
-          <span>Already have account?</span>
+          <span>Verified Admin?</span>
           <Link href="/login" className="text-center text-blue-500 underline">
             Login
           </Link>
