@@ -1,22 +1,12 @@
 import { Inter } from "next/font/google";
 import React, { useState } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { getSession } from "next-auth/react";
 const inter = Inter({ subsets: ["latin"] });
 import styles from "@/styles/Login.module.css";
 import Link from "next/link";
-import { ImGithub } from "react-icons/im";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
 import { useRouter } from "next/router";
-import {
-  Ri24HoursFill,
-  Ri24HoursLine,
-  Ri4KFill,
-  RiAB,
-  RiAccountBoxFill,
-  RiAdminFill,
-} from "react-icons/ri";
+import { RiAdminFill } from "react-icons/ri";
 
 const Login = () => {
   const router = useRouter();
@@ -33,7 +23,8 @@ const Login = () => {
     const status = await signIn("credentials", {
       email: form.email,
       password: form.password,
-      callbackUrl: "/client/dashboard",
+      scope: "moderator",
+      callbackUrl: "/moderator/dashboard",
       redirect: true,
     });
     console.log(status, "status");

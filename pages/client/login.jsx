@@ -25,6 +25,7 @@ const Login = () => {
     const status = await signIn("credentials", {
       email: form.email,
       password: form.password,
+      scope: "client",
       callbackUrl: "/client/dashboard",
       redirect: true,
     });
