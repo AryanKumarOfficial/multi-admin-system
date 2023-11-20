@@ -67,7 +67,7 @@ const Login = () => {
         <div className={`${styles.consent}`}>
           <span>New to plateform?</span>
           <Link
-            href="/register"
+            href="/client/register"
             className="text-center text-blue-500 underline"
           >
             Register

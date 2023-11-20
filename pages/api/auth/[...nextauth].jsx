@@ -5,7 +5,6 @@ import FacebookProvider from "next-auth/providers/facebook";
 import CredenitalProvider from "next-auth/providers/credentials";
 import User from "@/backend/Database/model/User";
 const bcrypt = require("bcryptjs");
-import Moderator from "@/backend/Database/model/Moderator";
 
 export const authOptions = {
   providers: [
@@ -41,72 +40,37 @@ export const authOptions = {
           type: "password",
           placeholder: "Your Password",
         },
-        scope: {
-          label: "Scope",
-          type: "text",
-          placeholder: "Scope",
-        },
       },
       authorize: async (credentials, req) => {
-        if (credentials.scope === "moderator") {
-          // moderator login
-          const userExists = await Moderator.findOne({
-            email: credentials.email,
-          });
-          console.log(userExists, "userExists");
-          if (userExists) {
-            // check if password matches
-            const combinedPassword =
-              credentials.password + userExists.salt + userExists.pepper;
-            const passwordMatch = await bcrypt.compareSync(
-              combinedPassword,
-              userExists.password
-            );
-            if (
-              passwordMatch &&
-              userExists.isVerified &&
-              userExists.role === "admin"
-            ) {
-              // if password matches, return user object
-              console.log(userExists, "userExists");
-              return Promise.resolve(userExists);
+        // check if user exists in the database
+        if (credentials.scope === "client") {
+          try {
+            const userExists = await User.findOne({ email: credentials.email });
+            if (userExists) {
+              // check if password matches
+              const combinedPassword =
+                credentials.password + userExists.salt + userExists.pepper;
+              const passwordMatch = await bcrypt.compareSync(
+                combinedPassword,
+                userExists.password
+              );
+              if (passwordMatch) {
+                // if password matches, return user object
+                console.log(userExists, "userExists");
+                return Promise.resolve(userExists);
+              } else {
+                // if password does not match, return null
+                return Promise.resolve(null);
+              }
             } else {
-              // if password does not match, return null
-              return Promise.resolve({ error: "Invalid Credentials" });
-            }
-          } else {
-            // if user does not exist, return null
-            return Promise.resolve(null);
-          }
-        } else if (credentials.scope === "client") {
-          // client login
-          const userExists = await User.findOne({ email: credentials.email });
-          if (userExists) {
-            // check if password matches
-            const combinedPassword =
-              credentials.password + userExists.salt + userExists.pepper;
-            const passwordMatch = await bcrypt.compareSync(
-              combinedPassword,
-              userExists.password
-            );
-            if (passwordMatch) {
-              // if password matches, return user object
-              console.log(userExists, "userExists");
-              return Promise.resolve(userExists);
-            } else {
-              // if password does not match, return null
+              // if user does not exist, return null
               return Promise.resolve(null);
             }
-          } else {
-            // if user does not exist, return null
-            return Promise.resolve(null);
+          } catch (error) {
+            console.error("Error during Authorisation: ", error);
+            return Promise.reject(new Error(error));
           }
-        } else if (credentials.scope === "admin") {
-          console.log("admin is here");
-        } else {
-          return Promise.resolve(null);
         }
-        // check if user exists in the database
       },
     }),
     // EmailProvider({

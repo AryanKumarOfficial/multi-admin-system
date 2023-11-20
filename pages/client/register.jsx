@@ -153,7 +153,7 @@ const Register = () => {
         </form>
         <div className={`${styles.consent}`}>
           <span>Already have account?</span>
-          <Link href="/login" className="text-center text-blue-500 underline">
+          <Link href="/client/login" className="text-center text-blue-500 underline">
             Login
           </Link>
         </div>{" "}
