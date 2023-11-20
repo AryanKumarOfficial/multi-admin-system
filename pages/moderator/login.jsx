@@ -7,6 +7,7 @@ import styles from "@/styles/Login.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { RiAdminFill } from "react-icons/ri";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const router = useRouter();
@@ -20,19 +21,32 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(form, "form");
-    const status = await signIn("credentials", {
-      email: form.email,
-      password: form.password,
-      scope: "moderator",
-      callbackUrl: "/moderator/dashboard",
-      redirect: true,
-    });
-    console.log(status, "status");
+    const status = await signIn(
+      "credentials",
+      {
+        email: form.email,
+        password: form.password,
+        scope: "moderator",
+        callbackUrl: "/moderator/dashboard",
+        redirect: false,
+      },
+      { prompt: "Login" }
+    );
+    if (status.ok) {
+      toast.success("Login Successful");
+      e.target.reset();
+      setTimeout(() => {
+        router.push("/moderator/dashboard");
+      }, 3000);
+    } else {
+      toast.error("Invalid Credentials");
+    }
   };
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}
     >
+      <Toaster />
       <div className="text-4xl font-semibold flex ">
         <RiAdminFill className="inline-block mr-2" />
         <h1>Login</h1>

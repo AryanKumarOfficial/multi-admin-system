@@ -93,17 +93,17 @@ export const authOptions = {
                 combinedPassword,
                 userExists.password
               );
-              if (passwordMatch) {
+              if (passwordMatch && userExists.role === "moderator") {
                 // if password matches, return user object
                 console.log(userExists, "moderator");
                 return Promise.resolve(userExists);
               } else {
                 // if password does not match, return null
-                return Promise.resolve(null);
+                return Promise.resolve();
               }
             } else {
               // if user does not exist, return null
-              return Promise.resolve(null);
+              return Promise.resolve();
             }
           } catch (error) {
             console.error("Error during Authorisation: ", error);
@@ -124,13 +124,13 @@ export const authOptions = {
     //   from: process.env.NEXT_PUBLIC_SMTP_FROM,
     // }),
   ],
-  // pages: {
-  //   signIn: "/client/login",
-  //   signOut: "/",
-  //   error: "/client/login",
-  //   verifyRequest: "/client/login",
-  //   newUser: "/welcome",
-  // },
+  pages: {
+    signIn: "/client/login",
+    signOut: "/",
+    error: "/client/login",
+    verifyRequest: "/client/login",
+    newUser: "/welcome",
+  },
 
   theme: {
     colorScheme: "dark",

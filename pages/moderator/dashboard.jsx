@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
-import { getSession, useSession } from "next-auth/react";
+import { getSession, useSession, getProviders } from "next-auth/react";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
-const Dashboard = () => {
+const Dashboard = ({ pSession }) => {
+  const provider = async () => await getProviders();
   const { data: session, status } = useSession();
-  useEffect(() => {
-    console.log(session, "data");
-  }, [session]);
+  useEffect(() => {}, []);
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-center ${inter.className}`}
@@ -58,6 +57,7 @@ const Dashboard = () => {
     </main>
   );
 };
+Dashboard.auth = true;
 
 export default Dashboard;
 
@@ -67,13 +67,13 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/moderator/login",
         permanent: false,
       },
     };
   }
 
   return {
-    props: {},
+    props: { pSession: session },
   };
 }
