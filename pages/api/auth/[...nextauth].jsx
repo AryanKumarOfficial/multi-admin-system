@@ -4,8 +4,9 @@ import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import CredenitalProvider from "next-auth/providers/credentials";
 import User from "@/backend/Database/model/User";
+import Moderator from "@/backend/Database/model/Moderator";
 const bcrypt = require("bcryptjs");
-
+const mongoose = require("mongoose");
 export const authOptions = {
   providers: [
     GithubProvider({
@@ -45,6 +46,10 @@ export const authOptions = {
         // check if user exists in the database
         if (credentials.scope === "client") {
           try {
+            await mongoose.connect(process.env.NEXT_PUBLIC_MONGO_URI, {
+              useNewUrlParser: true,
+              useUnifiedTopology: true,
+            });
             const userExists = await User.findOne({ email: credentials.email });
             if (userExists) {
               // check if password matches
@@ -57,6 +62,40 @@ export const authOptions = {
               if (passwordMatch) {
                 // if password matches, return user object
                 console.log(userExists, "userExists");
+                return Promise.resolve(userExists);
+              } else {
+                // if password does not match, return null
+                return Promise.resolve(null);
+              }
+            } else {
+              // if user does not exist, return null
+              return Promise.resolve(null);
+            }
+          } catch (error) {
+            console.error("Error during Authorisation: ", error);
+            return Promise.reject(new Error(error));
+          }
+        } else if (credentials.scope === "moderator") {
+          try {
+            await mongoose.connect(process.env.NEXT_PUBLIC_MONGO_URI, {
+              useNewUrlParser: true,
+              useUnifiedTopology: true,
+            });
+
+            const userExists = await Moderator.findOne({
+              email: credentials.email,
+            });
+            if (userExists) {
+              // check if password matches
+              const combinedPassword =
+                credentials.password + userExists.salt + userExists.pepper;
+              const passwordMatch = await bcrypt.compareSync(
+                combinedPassword,
+                userExists.password
+              );
+              if (passwordMatch) {
+                // if password matches, return user object
+                console.log(userExists, "moderator");
                 return Promise.resolve(userExists);
               } else {
                 // if password does not match, return null
