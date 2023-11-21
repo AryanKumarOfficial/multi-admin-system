@@ -1,12 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getSession, useSession, getProviders } from "next-auth/react";
 import { Inter } from "next/font/google";
+import { useRouter } from "next/router";
+import { NextResponse } from "next/server";
 
 const inter = Inter({ subsets: ["latin"] });
-const Dashboard = ({ pSession }) => {
-  const provider = async () => await getProviders();
+const Dashboard = () => {
+  const response = NextResponse.next();
+  const [role, setRole] = useState("client");
+  const router = useRouter();
   const { data: session, status } = useSession();
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(status, "status");
+    console.log(session?.user?.email, "session");
+    if (session) {
+      const role = response.cookies.get("role");
+      console.log(role, "role from cookie");
+    }
+  }, [router]);
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-center ${inter.className}`}

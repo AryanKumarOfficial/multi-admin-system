@@ -163,6 +163,7 @@ export const authOptions = {
       // if (session?.user) {
       //   session.user.id = token.uid;
       // }
+
       return session;
     },
     jwt: async ({ user, token, account }) => {
@@ -170,6 +171,10 @@ export const authOptions = {
         token = Object.assign(token, {
           uid: user.id,
           provider: account.provider,
+          name: user.name,
+          email: user.email,
+          image: user.image,
+          role: user.role,
         });
       }
       return token;

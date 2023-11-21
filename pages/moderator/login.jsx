@@ -33,6 +33,18 @@ const Login = () => {
       { prompt: "Login" }
     );
     if (status.ok) {
+      const setRole = async () => {
+        const res = await fetch("/api/auth/fetchrole", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: form?.email }),
+        });
+        const data = await res.json();
+        console.log(data, "data");
+      };
+      setRole();
       toast.success("Login Successful");
       e.target.reset();
       setTimeout(() => {
