@@ -61,8 +61,14 @@ export const authOptions = {
               );
               if (passwordMatch) {
                 // if password matches, return user object
-                console.log(userExists, "userExists");
-                return Promise.resolve(userExists);
+                const data = {
+                  id: userExists._id,
+                  name: userExists.name,
+                  email: userExists.email,
+                  image: userExists.image,
+                  role: userExists.role,
+                };
+                return Promise.resolve(data);
               } else {
                 // if password does not match, return null
                 return Promise.resolve(null);
@@ -72,7 +78,6 @@ export const authOptions = {
               return Promise.resolve(null);
             }
           } catch (error) {
-            console.error("Error during Authorisation: ", error);
             return Promise.reject(new Error(error));
           }
         } else if (credentials.scope === "moderator") {
@@ -95,8 +100,14 @@ export const authOptions = {
               );
               if (passwordMatch && userExists.role === "moderator") {
                 // if password matches, return user object
-                console.log(userExists, "moderator");
-                return Promise.resolve(userExists);
+                const data = {
+                  id: userExists._id,
+                  name: userExists.name,
+                  email: userExists.email,
+                  image: userExists.image,
+                  role: userExists.role,
+                };
+                return Promise.resolve(data);
               } else {
                 // if password does not match, return null
                 return Promise.resolve();
@@ -106,7 +117,6 @@ export const authOptions = {
               return Promise.resolve();
             }
           } catch (error) {
-            console.error("Error during Authorisation: ", error);
             return Promise.reject(new Error(error));
           }
         }
@@ -160,10 +170,8 @@ export const authOptions = {
   debug: true,
   callbacks: {
     session: async ({ session, token }) => {
-      // if (session?.user) {
-      //   session.user.id = token.uid;
-      // }
 
+      session.user = token;
       return session;
     },
     jwt: async ({ user, token, account }) => {

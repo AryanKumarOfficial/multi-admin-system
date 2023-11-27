@@ -6,7 +6,14 @@ const inter = Inter({ subsets: ["latin"] });
 const Dashboard = () => {
   const { data: session, status } = useSession();
   useEffect(() => {
-    console.log(session, status, "data");
+    if (session) {
+      console.log(session);
+      if (session?.user?.role === "moderator") {
+        router.push("/moderator/dashboard");
+      } else if (session?.user?.role === "client") {
+        router.push("/client/dashboard");
+      }
+    }
   }, [session]);
   return (
     <main
