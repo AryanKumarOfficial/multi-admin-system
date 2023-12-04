@@ -5,6 +5,7 @@ import FacebookProvider from "next-auth/providers/facebook";
 import CredenitalProvider from "next-auth/providers/credentials";
 import User from "@/backend/Database/model/User";
 import Moderator from "@/backend/Database/model/Moderator";
+import Admin from "@/backend/Database/model/Admin";
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 export const authOptions = {
@@ -63,7 +64,7 @@ export const authOptions = {
                 // if password matches, return user object
                 const data = {
                   id: userExists._id,
-                  name: userExists.name,
+                  name: userExists.name ?? userExists.firstName.concat(" ", userExists.lastName),
                   email: userExists.email,
                   image: userExists.image,
                   role: userExists.role,
@@ -99,6 +100,47 @@ export const authOptions = {
                 userExists.password
               );
               if (passwordMatch && userExists.role === "moderator") {
+                // if password matches, return user object
+                const data = {
+                  id: userExists._id,
+                  name: userExists.name,
+                  email: userExists.email,
+                  image: userExists.image,
+                  role: userExists.role,
+                };
+                return Promise.resolve(data);
+              } else {
+                // if password does not match, return null
+                return Promise.resolve();
+              }
+            } else {
+              // if user does not exist, return null
+              return Promise.resolve();
+            }
+          } catch (error) {
+            return Promise.reject(new Error(error));
+          }
+
+        } else if (credentials.scope === "admin") {
+          try {
+            await mongoose.connect(process.env.NEXT_PUBLIC_MONGO_URI, {
+              useNewUrlParser: true,
+              useUnifiedTopology: true,
+            });
+
+            const userExists = await Admin.findOne({
+              email: credentials.email,
+            });
+            if (userExists) {
+              console.log(userExists, "userExists");
+              // check if password matches
+              const combinedPassword =
+                credentials.password + userExists.salt + userExists.pepper;
+              const passwordMatch = await bcrypt.compareSync(
+                combinedPassword,
+                userExists.password
+              );
+              if (passwordMatch && userExists.role === "admin") {
                 // if password matches, return user object
                 const data = {
                   id: userExists._id,

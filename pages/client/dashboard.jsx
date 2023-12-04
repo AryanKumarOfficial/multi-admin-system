@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { getSession, useSession } from "next-auth/react";
 import { Inter } from "next/font/google";
+import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
 const Dashboard = () => {
+  const router = useRouter();
   const { data: session, status } = useSession();
   useEffect(() => {
     if (session) {
@@ -35,7 +37,7 @@ const Dashboard = () => {
               className="rounded-full w-24 h-24 border-blue-500 border-4 object-cover p-1"
             />
           </div>
-          <div className="mt-5 text-2xl text-center font-bold">
+          <div className="mt-5 text-2xl text-center font-bold capitalize">
             <h1>{session?.user?.name}</h1>
           </div>
           <div className="mt-5 text-lg text-center font-bold">
