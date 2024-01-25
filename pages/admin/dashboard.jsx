@@ -21,15 +21,7 @@ const Dashboard = () => {
                 className={`flex min-h-screen flex-col items-center justify-center ${inter.className}`}
             >
 
-                <div className={`${styles.menu}`}>
-                    <TfiMenuAlt size={35} />
-                </div>
-                <section className={`${styles.SideNav}`}>
-                    hello
-                </section>
-                <div className="text-5xl relative font-bold">
-                    <h1>Dashboard</h1>
-                </div>
+               
                 {session && (
                     <div className="mt-16">
                         <div className="flex items-center justify-center">

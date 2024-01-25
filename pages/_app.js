@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar'
 import '@/styles/globals.css'
-import { SessionProvider } from 'next-auth/react';
+import { SessionProvider, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import MagnifyingGlass from '@/components/Loader';
@@ -15,7 +15,7 @@ export default function App({ Component,
   const router = useRouter();
   useEffect(() => {
 
-    if (router.pathname.includes('/admin/dashboard')) {
+    if (router.pathname.includes('/admin')) {
       setIsAdmin(true)
     }
 
@@ -53,13 +53,13 @@ export default function App({ Component,
         transform: 'translate(-50%,-50%)'
       }}>
         <MagnifyingGlass />
-      </div> : <>
+      </div> : <h1>
         {isAdmin ? <AdminNav />
           :
           <Navbar />
         }
         <Component {...pageProps} />
-      </>
+      </h1>
       }
     </SessionProvider>
   </>

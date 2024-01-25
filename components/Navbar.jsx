@@ -9,9 +9,12 @@ import { signOut, useSession } from "next-auth/react";
 const Navbar = () => {
   const { data: session } = useSession();
   const [isLognIn, setIsLognIn] = useState(false);
+  const [isadmin, setIsAdmin] = useState(false);
   useEffect(() => {
     if (session) {
       setIsLognIn(true);
+    } else if (session?.user?.role == "admin") {
+      setIsAdmin(true);
     } else {
       setIsLognIn(false);
     }
@@ -107,30 +110,27 @@ const Navbar = () => {
           ) : (
             <>
               <li>
-                <button
+                <Link
                   className={`${
                     router.pathname.includes("/dashboard")
                       ? `${styles.active}`
                       : ""
                   }`}
-                  onClick={() =>
-                    signOut({
-                      callbackUrl: router.pathname.includes("moderator")
-                        ? "/moderator/login"
-                        : "/client/login",
-                    })
-                  }
+                  href={`${
+                    (router.pathname.includes("moderator") &&
+                      "/moderator/dashboard") ||
+                    (router.pathname.includes("client") &&
+                      "/client/dashboard") ||
+                    (isadmin && "/admin/dashboard")
+                  }`}
                 >
                   {" "}
                   Dashboard
-                </button>
+                </Link>
               </li>
 
               <li>
                 <button
-                  className={`${
-                    router.pathname == "/register" ? `${styles.active}` : ""
-                  }`}
                   onClick={() =>
                     signOut({
                       callbackUrl: router.pathname.includes("moderator")
