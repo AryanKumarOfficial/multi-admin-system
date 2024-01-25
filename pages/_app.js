@@ -5,13 +5,20 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import MagnifyingGlass from '@/components/Loader';
 import LoadingBar from 'react-top-loading-bar';
+import AdminNav from '@/components/AdminNav';
 
 export default function App({ Component,
   pageProps: { session, ...pageProps } }) {
   const [Loader, setLoader] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [isAdmin, setIsAdmin] = useState(false)
   const router = useRouter();
   useEffect(() => {
+
+    if (router.pathname === '/admin/dashboard') {
+      setIsAdmin(true)
+    }
+
     router.events.on('routeChangeComplete', () => {
       setLoader(false)
       setProgress(100)
@@ -47,7 +54,10 @@ export default function App({ Component,
       }}>
         <MagnifyingGlass />
       </div> : <>
-        <Navbar />
+        {isAdmin ? <AdminNav />
+          :
+          <Navbar />
+        }
         <Component {...pageProps} />
       </>
       }
