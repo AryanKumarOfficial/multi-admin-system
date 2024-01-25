@@ -15,7 +15,7 @@ export default function App({ Component,
   const router = useRouter();
   useEffect(() => {
 
-    if (router.pathname === '/admin/dashboard') {
+    if (router.pathname.includes('/admin/dashboard')) {
       setIsAdmin(true)
     }
 

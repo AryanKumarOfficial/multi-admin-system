@@ -109,6 +109,26 @@ const Navbar = () => {
               <li>
                 <button
                   className={`${
+                    router.pathname.includes("/dashboard")
+                      ? `${styles.active}`
+                      : ""
+                  }`}
+                  onClick={() =>
+                    signOut({
+                      callbackUrl: router.pathname.includes("moderator")
+                        ? "/moderator/login"
+                        : "/client/login",
+                    })
+                  }
+                >
+                  {" "}
+                  Dashboard
+                </button>
+              </li>
+
+              <li>
+                <button
+                  className={`${
                     router.pathname == "/register" ? `${styles.active}` : ""
                   }`}
                   onClick={() =>

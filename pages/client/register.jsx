@@ -62,12 +62,12 @@ const Register = () => {
     if (resData.ok) {
       toast.success(resData.msg);
       setTimeout(() => {
-        router.push("/login");
+        router.push("/client/dashboard");
       }, 3000);
     } else {
       toast.error(resData.msg);
       setTimeout(() => {
-        router.push("/login");
+        router.push("/client/login");
       }, 3000);
     }
     setForm({
