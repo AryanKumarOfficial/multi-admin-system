@@ -9,7 +9,7 @@ const Action = () => {
     const [moderators, setModerators] = useState([]);
     useEffect(() => {
         const fetchModerators = async () => {
-            const res = await fetch(`/api/fetchmoderators`, {
+            const res = await fetch(`/api/moderators/fetchmoderators`, {
                 method: "GET",
             })
             const data = await res.json();
