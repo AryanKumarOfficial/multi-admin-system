@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Inter } from "next/font/google"
 import { getSession } from 'next-auth/react';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const inter = Inter({ subsets: ["latin"] });
 const Action = () => {
 
     const [moderators, setModerators] = useState([]);
+
+
+
     useEffect(() => {
         const fetchModerators = async () => {
             const res = await fetch(`/api/moderators/fetchmoderators`, {
@@ -20,11 +24,30 @@ const Action = () => {
 
     }, [])
 
+    const handleVerify = (id) => async () => {
+        const res = await fetch(`/api/moderators/verify`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ id })
+        })
+        const data = await res.json();
+        if (data?.success) {
+            if (data?.moderator) {
+                toast.success("Moderator Verified Successfully")
+            }
+        }
+    }
+
+    const handleDelete = (id) => async () => { }
+
     return (
         <>
             <main
                 className={`flex min-h-screen flex-col items-center justify-center ${inter.className}`}
             >
+                <Toaster />
                 {/* table section */}
 
 
@@ -34,7 +57,7 @@ const Action = () => {
                             <h2 className="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Moderators</h2>
                         </div>
                         <div className="lg:min-w-fit w-full mx-auto overflow-auto">
-                            <table className="table-auto w-full text-left whitespace-no-wrap text-center">
+                            <table className="table-auto w-full whitespace-no-wrap text-center">
                                 <thead>
                                     <tr>
                                         <th className="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl ">ID</th>
@@ -98,10 +121,14 @@ const Action = () => {
                                                     <td className="px-4 py-3">
                                                         {/* dropdown action is recommended */}
                                                         <div className="flex justify-center space-x-2">
-                                                            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-xs">
+                                                            <button
+                                                                onClick={handleVerify(item?._id)}
+                                                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-xs">
                                                                 Verify
                                                             </button>
-                                                            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-xs">
+                                                            <button
+                                                                onClick={handleDelete(item?._id)}
+                                                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-xs">
                                                                 Delete
                                                             </button>
                                                         </div>
